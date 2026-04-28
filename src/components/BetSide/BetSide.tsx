@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useBalanceQuery } from "../../entities/game";
+import { useBalanceQuery, useStartGameMutation } from "../../entities/game";
 import { useGameStore } from "../../entities/game";
 import moneyIcon from "../../assets/moneyBag.png";
 import BetAmountBox from "./BetAmountBox/BetAmountBox";
@@ -8,8 +8,22 @@ import BetButton from "./BetButton/BetButton";
 
 const BetSide = () => {
   const { data: balanceData, isLoading, isError } = useBalanceQuery();
+  const { betAmount, minesCount, setGameId } = useGameStore();
+  const { mutateAsync } = useStartGameMutation();
 
   const setBalanceLimit = useGameStore((state) => state.setBalanceLimit);
+
+  const onStartGame = async () => {
+    try {
+      const response = await mutateAsync({
+        betAmount: betAmount,
+        minesCount: minesCount,
+      });
+      setGameId(response.gameId);
+    } catch (error) {
+      console.error("Failed to start game:", error);
+    }
+  };
 
   useEffect(() => {
     setBalanceLimit(balanceData?.balance ?? 0);
@@ -28,7 +42,10 @@ const BetSide = () => {
       <BetAmountBox />
       <MinesCountsBox />
 
-      <BetButton isGameInProgress={false} />
+      <BetButton
+        isGameInProgress={false}
+        clickStartGame={onStartGame}
+      />
 
       <div className="flex items-center justify-between border-t border-(--tabBg) pt-6">
         <p className="font-normal text-[12px] ">Balance</p>

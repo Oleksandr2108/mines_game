@@ -1,6 +1,5 @@
 export * from "./store/useGameStore";
 export * from "./queries/gameKeys";
-export * from "./queries/useGameQuery";
 export * from "./queries/useStartGameMutation";
 export * from "./queries/useRevealCellMutation";
 export * from "./queries/useBalanceQuery";

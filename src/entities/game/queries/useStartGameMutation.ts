@@ -8,7 +8,7 @@ export function useStartGameMutation() {
   return useMutation({
     mutationFn: gameApi.startGame,
     onSuccess: (data) => {
-      queryClient.setQueryData(gameKeys.byId(data.id), data);
+      queryClient.setQueryData(gameKeys.byId(data.gameId), data);
     },
   });
 }

@@ -2,6 +2,7 @@ import { httpClient } from "../../../shared/api/httpClient";
 import type {
   BalanceResponse,
   GameState,
+  RevealCellResponse,
   RevealCellPayload,
   StartGamePayload,
 } from "../model/types";
@@ -12,7 +13,7 @@ export const gameApi = {
     return response.data;
   },
 
-  async getBalance(): Promise<BalanceResponse> { 
+  async getBalance(): Promise<BalanceResponse> {
     const response = await httpClient.get<BalanceResponse>("/balance");
     return response.data;
   },
@@ -25,8 +26,8 @@ export const gameApi = {
   async revealCell(
     gameId: string,
     payload: RevealCellPayload,
-  ): Promise<GameState> {
-    const response = await httpClient.post<GameState>(
+  ): Promise<RevealCellResponse> {
+    const response = await httpClient.post<RevealCellResponse>(
       `/games/${gameId}/reveal`,
       payload,
     );

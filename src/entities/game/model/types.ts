@@ -1,31 +1,54 @@
 export type GameStatus = "idle" | "in_progress" | "won" | "lost";
 
 export interface BalanceResponse {
-balance: number;
+  balance: number;
 }
-
 
 export interface GameCell {
   row: number;
   col: number;
-  isMine: boolean;
-  isRevealed: boolean;
-  isFlagged: boolean;
-  adjacentMines: number;
+  type: "gem" | "mine";
+}
+
+export type CellType = "gem" | "mine";
+
+export interface RevealedCell {
+  row: number;
+  col: number;
+  type: CellType;
 }
 
 export interface GameState {
-  id: string;
-  status: GameStatus;
-  board: GameCell[][];
+  gameId: string;
   minesCount: number;
-  revealedCount: number;
+  betAmount: number;
+  status: "active" | "won" | "lost";
+  revealedCells: RevealedCell[];
+  balance: number;
 }
 
+export interface RevealGemResponse {
+  currentMultiplier: number;
+  gemsFound: number;
+  nextMultiplier: number;
+  result: "gem";
+  revealedCells: RevealedCell[];
+  status: "active" | "won";
+}
+
+export interface RevealMineResponse {
+  balance: number;
+  fullBoard: CellType[][];
+  result: "mine";
+  revealedCell: RevealedCell;
+  status: "lost";
+}
+
+export type RevealCellResponse = RevealGemResponse | RevealMineResponse;
+
 export interface StartGamePayload {
-  rows: number;
-  cols: number;
-  mines: number;
+  betAmount: number;
+  minesCount: number;
 }
 
 export interface RevealCellPayload {

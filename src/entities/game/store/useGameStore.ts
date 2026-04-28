@@ -7,6 +7,8 @@ interface GameStoreState {
   betAmount: number;
   balanceLimit: number;
   minesCount: number;
+  gameId?: string;
+  setGameId: (id: string) => void;
   setMinesCount: (count: number) => void;
   setBalanceLimit: (balance: number) => void;
   setBetAmount: (amount: number) => void;
@@ -32,6 +34,8 @@ export const useGameStore = create<GameStoreState>((set) => ({
   betAmount: MIN_BET,
   balanceLimit: MAX_BET,
   minesCount: MINE_COUNT_OPTIONS[0],
+  gameId: undefined,
+  setGameId: (id: string) => set({ gameId: id }),
   setBalanceLimit: (balance: number) =>
     set((state) => ({
       balanceLimit: Math.max(0, balance),
