@@ -4,6 +4,7 @@ import { useGameStore } from "../../entities/game";
 import moneyIcon from "../../assets/moneyBag.png";
 import BetAmountBox from "./BetAmountBox/BetAmountBox";
 import MinesCountsBox from "./MinesCountsBox/MinesCountsBox";
+import BetButton from "./BetButton/BetButton";
 
 const BetSide = () => {
   const { data: balanceData, isLoading, isError } = useBalanceQuery();
@@ -26,6 +27,8 @@ const BetSide = () => {
     <div className="w-70 flex flex-col h-full gap-6 bg-(--secondaryBg) p-6 rounded-[14px] border border-(--tabBg) ">
       <BetAmountBox />
       <MinesCountsBox />
+
+      <BetButton isGameInProgress={false} />
 
       <div className="flex items-center justify-between border-t border-(--tabBg) pt-6">
         <p className="font-normal text-[12px] ">Balance</p>

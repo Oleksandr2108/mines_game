@@ -7,8 +7,8 @@ import type {
 } from "../model/types";
 
 export const gameApi = {
-  async getGameState(gameId: string): Promise<GameState> {
-    const response = await httpClient.get<GameState>(`/games/${gameId}`);
+  async getGameState(): Promise<GameState> {
+    const response = await httpClient.get<GameState>(`/games`);
     return response.data;
   },
 
