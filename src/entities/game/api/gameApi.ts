@@ -1,10 +1,13 @@
 import { httpClient } from "../../../shared/api/httpClient";
+import { isAxiosError } from "axios";
 import type {
+  ActiveGameResponse,
   BalanceResponse,
   GameState,
   RevealCellResponse,
   RevealCellPayload,
   StartGamePayload,
+  GameCashOutResponse,
 } from "../model/types";
 
 export const gameApi = {
@@ -16,6 +19,30 @@ export const gameApi = {
   async getBalance(): Promise<BalanceResponse> {
     const response = await httpClient.get<BalanceResponse>("/balance");
     return response.data;
+  },
+
+  async getActiveGame(): Promise<ActiveGameResponse | null> {
+    try {
+      const response =
+        await httpClient.get<ActiveGameResponse>("/games/active");
+      return response.data;
+    } catch (error) {
+      if (isAxiosError(error)) {
+        const status = error.response?.status;
+        const backendMessage = (
+          error.response?.data as { error?: string } | undefined
+        )?.error;
+
+        if (
+          status === 404 ||
+          status === 400 ||
+          backendMessage === "No active game"
+        ) {
+          return null;
+        }
+      }
+      throw error;
+    }
   },
 
   async startGame(payload: StartGamePayload): Promise<GameState> {
@@ -33,4 +60,9 @@ export const gameApi = {
     );
     return response.data;
   },
+
+  async cashOut(gameId: string): Promise<GameCashOutResponse> {
+    const response = await httpClient.post<GameCashOutResponse>(`/games/${gameId}/cashout`);
+    return response.data;
+  }
 };

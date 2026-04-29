@@ -33,8 +33,8 @@ const Cell = ({ visual, onClick, disabled, index = 0 }: CellProps) => {
     gem: "bg-(--winCell) border-(--accessColor)  shadow-[0_0_20px_0_rgb(34_197_94/0.3)] anim-pop",
     mine: "bg-(--loseCell)  anim-flip-in",
     "mine-hit":
-      "bg-mine border-mine text-mine-foreground shadow-mine anim-shake anim-mine-flash",
-    "gem-faded": "bg-gem/8 border-gem/30 text-gem/50 anim-flip-in",
+      "bg-(--loseCell) border-(--errorColor)  shadow-[0_0_50px_0_rgb(239_68_68/0.4)] anim-shake anim-mine-flash",
+    "gem-faded": "bg-(--winCell) border-(--accessColor)  shadow-[0_0_20px_0_rgb(34_197_94/0.3)] anim-flip-in",
   };
 
   return (

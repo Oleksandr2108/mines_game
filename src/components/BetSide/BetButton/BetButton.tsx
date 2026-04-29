@@ -2,12 +2,14 @@ interface BetButtonProps {
   clickStartGame?: () => void;
   clickCashOut?: () => void;
   isGameInProgress: boolean;
+  profit?: number;
 }
 
 const BetButton = ({
   clickStartGame,
   clickCashOut,
   isGameInProgress,
+  profit,
 }: BetButtonProps) => {
   return (
     <>
@@ -18,7 +20,7 @@ const BetButton = ({
           style={{ background: "var(--tabFocusBg)" }}
           onClick={clickCashOut}
         >
-          Cash Out
+          Cash Out{profit ? `-$${profit.toFixed(2)}` : ""}
         </button>
       ) : (
         <button

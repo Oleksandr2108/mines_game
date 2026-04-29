@@ -27,6 +27,26 @@ export interface GameState {
   balance: number;
 }
 
+export interface GameCashOutResponse {
+  status: "won";
+  cashedOutMultiplier: number;
+  winAmount: number;
+  profit: number;
+  balance: number;
+  fullBoard: CellType[][];
+}
+
+export interface ActiveGameResponse {
+  gameId: string;
+  minesCount: number;
+  betAmount: number;
+  currentMultiplier: number;
+  status: "active";
+  revealedCells: RevealedCell[];
+  gemsFound: number;
+  nextMultiplier: number;
+}
+
 export interface RevealGemResponse {
   currentMultiplier: number;
   gemsFound: number;

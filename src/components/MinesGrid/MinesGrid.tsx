@@ -1,6 +1,5 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useGameStore, useRevealCellMutation } from "../../entities/game";
-import type { CellType, RevealedCell } from "../../entities/game";
 import Cell from "./Cell/Cell";
 
 const GRID_SIZE = 5;
@@ -11,11 +10,18 @@ function cellKey(row: number, col: number) {
 
 const MinesGrid = () => {
   const { mutateAsync: revealCell } = useRevealCellMutation();
-  const { gameId } = useGameStore();
-  const [revealedCells, setRevealedCells] = useState<RevealedCell[]>([]);
-  const [fullBoard, setFullBoard] = useState<CellType[][] | null>(null);
-  const [hitMineCell, setHitMineCell] = useState<RevealedCell | null>(null);
-  const [loadingCellKey, setLoadingCellKey] = useState<string | null>(null);
+  const {
+    gameId,
+    revealedCells,
+    fullBoard,
+    hitMineCell,
+    loadingCellKey,
+    setRevealedCells,
+    setFullBoard,
+    setHitMineCell,
+    setLoadingCellKey,
+    setLastRevealResponse,
+  } = useGameStore();
 
   const revealedMap = useMemo(() => {
     const map = new Set<string>();
@@ -47,6 +53,7 @@ const MinesGrid = () => {
         gameId: gameId,
         payload: { row, col },
       });
+      setLastRevealResponse(response);
 
       if (response.result === "gem") {
         setRevealedCells(response.revealedCells);
