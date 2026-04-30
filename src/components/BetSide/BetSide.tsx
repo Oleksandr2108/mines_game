@@ -50,15 +50,13 @@ const BetSide = () => {
       lastRevealResponse: state.lastRevealResponse,
       setBalanceLimit: state.setBalanceLimit,
     })),
-    );
-  
+  );
+
   const lastGemResponse =
     lastRevealResponse?.result === "gem" ? lastRevealResponse : null;
   const isGameInProgress =
     activeGameData?.status === "active" ||
     lastRevealResponse?.status === "active";
-  
-  
 
   const onStartGame = async () => {
     try {
@@ -104,6 +102,10 @@ const BetSide = () => {
     setBalanceLimit(balanceData.balance);
   }, [balanceData?.balance, setBalance, setBalanceLimit]);
 
+  const profit = lastGemResponse
+    ? lastGemResponse.currentMultiplier * betAmount - betAmount
+    : 0;
+
   useEffect(() => {
     if (!activeGameData) {
       return;
@@ -142,7 +144,7 @@ const BetSide = () => {
   }
 
   return (
-    <div className="w-70 flex flex-col h-171 gap-6 bg-(--secondaryBg) p-6 rounded-[14px] border border-(--tabBg) ">
+    <div className="w-70 flex flex-col h-171 gap-6 bg-(--secondaryBg) p-6 rounded-[14px] border border-(--tabBg) order-2 lg:order-1 ">
       <BetAmountBox />
       <MinesCountsBox />
 
@@ -150,17 +152,14 @@ const BetSide = () => {
         isGameInProgress={isGameInProgress}
         clickStartGame={onStartGame}
         clickCashOut={onCashOut}
-        profit={
-          lastGemResponse
-            ? lastGemResponse.currentMultiplier * betAmount - betAmount
-            : 0
-        }
+        profit={profit}
       />
 
       {isGameInProgress && lastGemResponse && (
         <InfoActiveGame
+          minesCount={minesCount}
           currentMultiplier={lastGemResponse.currentMultiplier}
-          profit={lastGemResponse.currentMultiplier * betAmount - betAmount}
+          profit={`$${profit.toFixed(2)}`}
           gemsFound={lastGemResponse.gemsFound}
           nextMultiplier={lastGemResponse.nextMultiplier}
         />

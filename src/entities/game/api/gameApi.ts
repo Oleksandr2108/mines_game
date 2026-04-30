@@ -8,6 +8,7 @@ import type {
   RevealCellPayload,
   StartGamePayload,
   GameCashOutResponse,
+  GameHistoryResponse,
 } from "../model/types";
 
 export const gameApi = {
@@ -62,7 +63,13 @@ export const gameApi = {
   },
 
   async cashOut(gameId: string): Promise<GameCashOutResponse> {
-    const response = await httpClient.post<GameCashOutResponse>(`/games/${gameId}/cashout`);
+    const response = await httpClient.post<GameCashOutResponse>(
+      `/games/${gameId}/cashout`,
+    );
     return response.data;
-  }
+  },
+  async getHistory(): Promise<GameHistoryResponse> {
+    const response = await httpClient.get<GameHistoryResponse>(`/history`);
+    return response.data;
+  },
 };

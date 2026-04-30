@@ -21,7 +21,7 @@
   --textColor: #7a8599;
   --tabFocusBg: #3b82f6;
   --textYellow: #fbbf24;
-  --accessColor: #22c55e;
+  --successColor: #22c55e;
   --errorColor: #ef4444;
   --winCell: #052e16;
   --loseCell: #ef4444;
@@ -57,6 +57,21 @@ body {
 
 p {
   margin: 0;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--tabBg);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--textColor);
 }
 
 @keyframes cell-flip-in {

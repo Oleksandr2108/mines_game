@@ -1,0 +1,63 @@
+import type { GameHistoryItem } from "../../entities/game";
+import { useGameHistoryQuery } from "../../entities/game/queries/useGameHistoryQuery";
+import Title from "../Title/Title";
+import BombIcon from "../../assets/bomb.png";
+
+const BetHistory = () => {
+  const { data: historyData, isLoading, isError } = useGameHistoryQuery();
+
+  return (
+    <div className="w-70 h-171  bg-(--secondaryBg) p-6 rounded-[14px] border border-(--tabBg) order-1 lg:order-3 ">
+      <Title text="Recent Games" />
+      {isLoading && <p>Loading history...</p>}
+      {isError && <p>Failed to load history</p>}
+      {historyData && historyData.games.length === 0 && (
+        <p>No games played yet.</p>
+      )}
+      {historyData && historyData.games.length > 0 && (
+        <div className="mt-4 flex flex-col gap-2 overflow-y-auto max-h-[calc(100%-3rem)] pr-1">
+          {historyData.games.map((game: GameHistoryItem) => (
+            <div
+              key={game.gameId}
+              className="border bg-(--blockBg) border-(--tabBg) rounded-[10px] p-3 "
+            >
+              <div className="flex items-center justify-between">
+                <p className="text-[12px]">${game.betAmount.toFixed(2)}</p>
+                <p className="text-[14px] font-(--font-family) text-(--successColor)">
+                  {game.status === "lost" ? (
+                    <img
+                      className="w-4 h-4"
+                      src={BombIcon}
+                      alt="Bomb"
+                    />
+                  ) : (
+                    `${game.multiplier}x`
+                  )}{" "}
+                </p>
+              </div>
+              <div className="flex items-center justify-between mt-2">
+                {game.status === "lost" ? (
+                  <>
+                    <p className="text-[10px] uppercase">Bust</p>
+                    <p className="text-[12px] text-(--errorColor) font-(--font-family)">
+                      -${game.betAmount.toFixed(2)}
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <p className="text-[10px] uppercase">Win</p>
+                    <p className="text-[12px] text-(--successColor) font-(--font-family)">
+                      +${game.profit?.toFixed(2)}
+                    </p>
+                  </>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default BetHistory;

@@ -75,3 +75,18 @@ export interface RevealCellPayload {
   row: number;
   col: number;
 }
+
+export interface GameHistoryItem {
+  gameId: string;
+  betAmount: number;
+  minesCount: number;
+  status: GameStatus;
+  multiplier: number | null;
+  profit: number | null;
+  gemsFound: number;
+  createdAt: string;
+}
+
+export interface GameHistoryResponse {
+  games: GameHistoryItem[];
+}

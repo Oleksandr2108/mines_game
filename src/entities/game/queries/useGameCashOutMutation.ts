@@ -10,6 +10,7 @@ export function useGameCashOutMutation() {
     onSuccess: (data) => {
       queryClient.setQueryData(gameKeys.balance(), { balance: data.balance });
       queryClient.setQueryData(gameKeys.active(), null);
+      queryClient.invalidateQueries({ queryKey: gameKeys.history() });
     },
   });
 }

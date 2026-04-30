@@ -17,6 +17,7 @@ export function useRevealCellMutation() {
     onSuccess: (data) => {
       if (data.result === "mine") {
         queryClient.setQueryData(gameKeys.balance(), { balance: data.balance });
+        queryClient.invalidateQueries({ queryKey: gameKeys.history() });
       }
     },
   });

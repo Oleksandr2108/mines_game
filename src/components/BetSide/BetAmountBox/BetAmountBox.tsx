@@ -1,7 +1,7 @@
 import { useGameStore } from "../../../entities/game";
 import DollarIcon from "../../../assets/dollar.svg";
 import BoxTag from "../BoxTag/BoxTag";
-import Title from "../Title/Title";
+import Title from "../../Title/Title";
 
 const BetAmountBox = () => {
   const { betAmount, setBetAmount } = useGameStore();

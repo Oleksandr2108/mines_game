@@ -96,7 +96,7 @@ const MinesGrid = () => {
 
   return (
     <div
-      className="grid w-full max-w-125 gap-2 sm:gap-2"
+      className="grid w-full max-w-125 gap-2 sm:gap-2 order-3 lg:order-2"
       style={{ gridTemplateColumns: `repeat(${GRID_SIZE}, minmax(0, 1fr))` }}
     >
       {Array.from({ length: GRID_SIZE }).map((_, row) =>

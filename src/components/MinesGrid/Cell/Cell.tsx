@@ -30,11 +30,12 @@ const Cell = ({ visual, onClick, disabled, index = 0 }: CellProps) => {
       "active:scale-95",
     ),
     loading: "  cursor-wait animate-pulse",
-    gem: "bg-(--winCell) border-(--accessColor)  shadow-[0_0_20px_0_rgb(34_197_94/0.3)] anim-pop",
+    gem: "bg-(--winCell) border-(--successColor)  shadow-[0_0_20px_0_rgb(34_197_94/0.3)] anim-pop",
     mine: "bg-(--loseCell)  anim-flip-in",
     "mine-hit":
       "bg-(--loseCell) border-(--errorColor)  shadow-[0_0_50px_0_rgb(239_68_68/0.4)] anim-shake anim-mine-flash",
-    "gem-faded": "bg-(--winCell) border-(--accessColor)  shadow-[0_0_20px_0_rgb(34_197_94/0.3)] anim-flip-in",
+    "gem-faded":
+      "bg-(--winCell) border-(--successColor)  shadow-[0_0_20px_0_rgb(34_197_94/0.3)] anim-flip-in",
   };
 
   return (
