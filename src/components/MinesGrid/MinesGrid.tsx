@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { useGameStore, useRevealCellMutation } from "../../entities/game";
 import Cell from "./Cell/Cell";
+import GameResultPopup from "../GameResultPopup/GameResultPopup";
 
 const GRID_SIZE = 5;
 
@@ -12,15 +13,18 @@ const MinesGrid = () => {
   const { mutateAsync: revealCell } = useRevealCellMutation();
   const {
     gameId,
+    betAmount,
     revealedCells,
     fullBoard,
     hitMineCell,
     loadingCellKey,
+    gameResult,
     setRevealedCells,
     setFullBoard,
     setHitMineCell,
     setLoadingCellKey,
     setLastRevealResponse,
+    setGameResult,
   } = useGameStore();
 
   const revealedMap = useMemo(() => {
@@ -61,6 +65,7 @@ const MinesGrid = () => {
       } else {
         setFullBoard(response.fullBoard);
         setHitMineCell(response.revealedCell);
+        setGameResult({ type: "mine", betAmount });
       }
     } catch (error) {
       console.error("Failed to reveal cell:", error);
@@ -96,9 +101,15 @@ const MinesGrid = () => {
 
   return (
     <div
-      className="grid w-full max-w-125 gap-2 sm:gap-2 order-3 lg:order-2"
+      className="relative grid w-full max-w-125 gap-2 sm:gap-2 order-3 lg:order-2"
       style={{ gridTemplateColumns: `repeat(${GRID_SIZE}, minmax(0, 1fr))` }}
     >
+      {gameResult && (
+        <GameResultPopup
+          result={gameResult}
+          onClose={() => setGameResult(null)}
+        />
+      )}
       {Array.from({ length: GRID_SIZE }).map((_, row) =>
         Array.from({ length: GRID_SIZE }).map((_, col) => {
           const index = row * GRID_SIZE + col;

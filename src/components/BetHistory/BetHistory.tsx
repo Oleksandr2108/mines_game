@@ -2,6 +2,7 @@ import type { GameHistoryItem } from "../../entities/game";
 import { useGameHistoryQuery } from "../../entities/game/queries/useGameHistoryQuery";
 import Title from "../Title/Title";
 import BombIcon from "../../assets/bomb.png";
+import { formatMoney } from "../../shared/lib/formatMoney";
 
 const BetHistory = () => {
   const { data: historyData, isLoading, isError } = useGameHistoryQuery();
@@ -22,7 +23,7 @@ const BetHistory = () => {
               className="border bg-(--blockBg) border-(--tabBg) rounded-[10px] p-3 "
             >
               <div className="flex items-center justify-between">
-                <p className="text-[12px]">${game.betAmount.toFixed(2)}</p>
+                <p className="text-[12px]">${formatMoney(game.betAmount)}</p>
                 <p className="text-[14px] font-(--font-family) text-(--successColor)">
                   {game.status === "lost" ? (
                     <img
@@ -40,14 +41,15 @@ const BetHistory = () => {
                   <>
                     <p className="text-[10px] uppercase">Bust</p>
                     <p className="text-[12px] text-(--errorColor) font-(--font-family)">
-                      -${game.betAmount.toFixed(2)}
+                      -${formatMoney(game.betAmount)}
                     </p>
                   </>
                 ) : (
                   <>
                     <p className="text-[10px] uppercase">Win</p>
                     <p className="text-[12px] text-(--successColor) font-(--font-family)">
-                      +${game.profit?.toFixed(2)}
+                      +$
+                      {game.profit != null ? formatMoney(game.profit) : "0.00"}
                     </p>
                   </>
                 )}

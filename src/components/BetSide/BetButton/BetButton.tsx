@@ -1,3 +1,5 @@
+import { formatMoney } from "../../../shared/lib/formatMoney";
+
 interface BetButtonProps {
   clickStartGame?: () => void;
   clickCashOut?: () => void;
@@ -20,7 +22,7 @@ const BetButton = ({
           style={{ background: "var(--tabFocusBg)" }}
           onClick={clickCashOut}
         >
-          Cash Out{profit ? `-$${profit.toFixed(2)}` : ""}
+          Cash Out{profit ? `-$${formatMoney(profit)}` : ""}
         </button>
       ) : (
         <button

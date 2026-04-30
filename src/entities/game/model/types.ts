@@ -1,5 +1,9 @@
 export type GameStatus = "idle" | "in_progress" | "won" | "lost";
 
+export type GameResult =
+  | { type: "mine"; betAmount: number }
+  | { type: "cashout"; multiplier: number; winAmount: number; profit: number };
+
 export interface BalanceResponse {
   balance: number;
 }

@@ -3,6 +3,7 @@ import { persist } from "zustand/middleware";
 import { MINE_COUNT_OPTIONS } from "../model/constants";
 import type {
   CellType,
+  GameResult,
   RevealCellResponse,
   RevealedCell,
 } from "../model/types";
@@ -21,6 +22,7 @@ interface GameStoreState {
   hitMineCell: RevealedCell | null;
   loadingCellKey: string | null;
   lastRevealResponse: RevealCellResponse | null;
+  gameResult: GameResult | null;
   setBalance: (balance: number) => void;
   setGameId: (id: string) => void;
   setMinesCount: (count: number) => void;
@@ -34,6 +36,7 @@ interface GameStoreState {
   setHitMineCell: (cell: RevealedCell | null) => void;
   setLoadingCellKey: (key: string | null) => void;
   setLastRevealResponse: (response: RevealCellResponse | null) => void;
+  setGameResult: (result: GameResult | null) => void;
   resetBoardState: () => void;
 }
 
@@ -63,6 +66,7 @@ export const useGameStore = create<GameStoreState>()(
       hitMineCell: null,
       loadingCellKey: null,
       lastRevealResponse: null,
+      gameResult: null,
       setBalance: (balance: number) => set({ balance }),
       setGameId: (id: string) =>
         set({
@@ -107,6 +111,7 @@ export const useGameStore = create<GameStoreState>()(
       setLoadingCellKey: (key: string | null) => set({ loadingCellKey: key }),
       setLastRevealResponse: (response: RevealCellResponse | null) =>
         set({ lastRevealResponse: response }),
+      setGameResult: (result: GameResult | null) => set({ gameResult: result }),
       resetBoardState: () =>
         set({
           revealedCells: [],

@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { formatMoney } from "../../shared/lib/formatMoney";
 import { useShallow } from "zustand/react/shallow";
 import {
   useActiveGameQuery,
@@ -33,6 +34,7 @@ const BetSide = () => {
     setBalance,
     lastRevealResponse,
     setBalanceLimit,
+    setGameResult,
   } = useGameStore(
     useShallow((state) => ({
       gameId: state.gameId,
@@ -49,6 +51,7 @@ const BetSide = () => {
       setBalance: state.setBalance,
       lastRevealResponse: state.lastRevealResponse,
       setBalanceLimit: state.setBalanceLimit,
+      setGameResult: state.setGameResult,
     })),
   );
 
@@ -88,6 +91,12 @@ const BetSide = () => {
       setFullBoard(response.fullBoard);
       setHitMineCell(null);
       setLastRevealResponse(null);
+      setGameResult({
+        type: "cashout",
+        multiplier: response.cashedOutMultiplier,
+        winAmount: response.winAmount,
+        profit: response.profit,
+      });
     } catch (error) {
       console.error("Failed to cash out:", error);
     }
@@ -159,7 +168,7 @@ const BetSide = () => {
         <InfoActiveGame
           minesCount={minesCount}
           currentMultiplier={lastGemResponse.currentMultiplier}
-          profit={`$${profit.toFixed(2)}`}
+          profit={`$${formatMoney(profit)}`}
           gemsFound={lastGemResponse.gemsFound}
           nextMultiplier={lastGemResponse.nextMultiplier}
         />
