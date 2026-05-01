@@ -13,11 +13,12 @@ import BetButton from "./BetButton/BetButton";
 import InfoActiveGame from "./InfoActiveGame/InfoActiveGame";
 import BetBalance from "./BetBalance/BetBalance";
 import { useGameCashOutMutation } from "../../entities/game/queries/useGameCashOutMutation";
+import Loader from "../Loader/Loader";
 
 const BetSide = () => {
-  const { data: balanceData, isLoading, isError } = useBalanceQuery();
+  const { data: balanceData } = useBalanceQuery();
   const { data: activeGameData } = useActiveGameQuery();
-  const { mutateAsync } = useStartGameMutation();
+  const { mutateAsync, isPending: isStartGamePending } = useStartGameMutation();
   const { mutateAsync: cashOutMutateAsync } = useGameCashOutMutation();
   const {
     gameId,
@@ -144,38 +145,33 @@ const BetSide = () => {
     setRevealedCells,
   ]);
 
-  if (isLoading) {
-    return <div>Loading balance...</div>;
-  }
-
-  if (isError) {
-    return <div>Failed to load balance</div>;
-  }
-
   return (
-    <div className="w-70 flex flex-col h-171 gap-6 bg-(--secondaryBg) p-6 rounded-[14px] border border-(--tabBg) order-2 lg:order-1 ">
-      <BetAmountBox />
-      <MinesCountsBox />
+    <>
+      {isStartGamePending && <Loader variant="start" />}
+      <div className="w-70 flex flex-col h-171 gap-6 bg-(--secondaryBg) p-6 rounded-[14px] border border-(--tabBg) order-2 lg:order-1 ">
+        <BetAmountBox />
+        <MinesCountsBox />
 
-      <BetButton
-        isGameInProgress={isGameInProgress}
-        clickStartGame={onStartGame}
-        clickCashOut={onCashOut}
-        profit={profit}
-      />
-
-      {isGameInProgress && lastGemResponse && (
-        <InfoActiveGame
-          minesCount={minesCount}
-          currentMultiplier={lastGemResponse.currentMultiplier}
-          profit={`$${formatMoney(profit)}`}
-          gemsFound={lastGemResponse.gemsFound}
-          nextMultiplier={lastGemResponse.nextMultiplier}
+        <BetButton
+          isGameInProgress={isGameInProgress}
+          clickStartGame={onStartGame}
+          clickCashOut={onCashOut}
+          profit={profit}
         />
-      )}
 
-      <BetBalance balance={balance} />
-    </div>
+        {isGameInProgress && lastGemResponse && (
+          <InfoActiveGame
+            minesCount={minesCount}
+            currentMultiplier={lastGemResponse.currentMultiplier}
+            profit={`$${formatMoney(profit)}`}
+            gemsFound={lastGemResponse.gemsFound}
+            nextMultiplier={lastGemResponse.nextMultiplier}
+          />
+        )}
+
+        <BetBalance balance={balance} />
+      </div>
+    </>
   );
 };
 
