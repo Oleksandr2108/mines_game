@@ -8,12 +8,6 @@ export interface BalanceResponse {
   balance: number;
 }
 
-export interface GameCell {
-  row: number;
-  col: number;
-  type: "gem" | "mine";
-}
-
 export type CellType = "gem" | "mine";
 
 export interface RevealedCell {
@@ -51,24 +45,22 @@ export interface ActiveGameResponse {
   nextMultiplier: number;
 }
 
-export interface RevealGemResponse {
-  currentMultiplier: number;
-  gemsFound: number;
-  nextMultiplier: number;
-  result: "gem";
-  revealedCells: RevealedCell[];
-  status: "active" | "won";
-}
-
-export interface RevealMineResponse {
-  balance: number;
-  fullBoard: CellType[][];
-  result: "mine";
-  revealedCell: RevealedCell;
-  status: "lost";
-}
-
-export type RevealCellResponse = RevealGemResponse | RevealMineResponse;
+export type RevealCellResponse =
+  | {
+      currentMultiplier: number;
+      gemsFound: number;
+      nextMultiplier: number;
+      result: "gem";
+      revealedCells: RevealedCell[];
+      status: "active" | "won";
+    }
+  | {
+      balance: number;
+      fullBoard: CellType[][];
+      result: "mine";
+      revealedCell: RevealedCell;
+      status: "lost";
+    };
 
 export interface StartGamePayload {
   betAmount: number;

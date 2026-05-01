@@ -6,3 +6,4 @@ export * from "./queries/useBalanceQuery";
 export * from "./queries/useActiveGameQuery";
 export * from "./model/constants";
 export * from "./model/types";
+export * from "./model/useIsGameActive";

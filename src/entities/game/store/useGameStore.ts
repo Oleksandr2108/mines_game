@@ -8,9 +8,6 @@ import type {
   RevealedCell,
 } from "../model/types";
 
-export type Difficulty = "easy" | "medium" | "hard";
-export type LocalGameStatus = "idle" | "in_progress" | "won" | "lost";
-
 interface GameStoreState {
   balance: number;
   betAmount: number;

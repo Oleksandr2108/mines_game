@@ -1,4 +1,5 @@
-import { useGameStore } from "../../../entities/game";
+import { useShallow } from "zustand/react/shallow";
+import { useGameStore, useIsGameActive } from "../../../entities/game";
 import DollarIcon from "../../../assets/dollar.svg";
 import BoxTag from "../BoxTag/BoxTag";
 import Title from "../../Title/Title";
@@ -6,8 +7,16 @@ import Title from "../../Title/Title";
 const PRESET_AMOUNTS = [10, 25, 50, 100, 250, 500, 1000, 2500];
 
 const BetAmountBox = () => {
-  const { betAmount, setBetAmount, lastRevealResponse } = useGameStore();
-  const isGameActive = lastRevealResponse?.status === "active";
+  const { betAmount, setBetAmount, halfBet, doubleBet, maxBet } = useGameStore(
+    useShallow((s) => ({
+      betAmount: s.betAmount,
+      setBetAmount: s.setBetAmount,
+      halfBet: s.halfBet,
+      doubleBet: s.doubleBet,
+      maxBet: s.maxBet,
+    })),
+  );
+  const isGameActive = useIsGameActive();
 
   const handleBetChange = (value: string) => {
     if (/^-?\d*([.,]\d{0,2})?$/.test(value)) {
@@ -57,17 +66,17 @@ const BetAmountBox = () => {
         <BoxTag
           text="1/2"
           disabled={isGameActive}
-          onClick={() => useGameStore.getState().halfBet()}
+          onClick={halfBet}
         />
         <BoxTag
           text="x2"
           disabled={isGameActive}
-          onClick={() => useGameStore.getState().doubleBet()}
+          onClick={doubleBet}
         />
         <BoxTag
           text="Max"
           disabled={isGameActive}
-          onClick={() => useGameStore.getState().maxBet()}
+          onClick={maxBet}
         />
       </div>
     </div>

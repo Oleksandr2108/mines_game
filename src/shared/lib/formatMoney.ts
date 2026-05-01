@@ -1,3 +1,3 @@
 export function formatMoney(value: number): string {
-  return value.toFixed(2);
+  return Number.isFinite(value) ? value.toFixed(2) : "0.00";
 }
