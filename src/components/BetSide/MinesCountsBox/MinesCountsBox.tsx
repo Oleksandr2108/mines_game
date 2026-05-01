@@ -8,7 +8,7 @@ const MinesCountsBox = () => {
 
   return (
     
-      <div>
+      <div className="order-3 lg:order-2">
         <h1 className="text-(--textColor) uppercase leading-[150%] ">Mines</h1>
         <div className="flex items-center justify-between gap-2 mt-2">
           {MINE_COUNT_OPTIONS.map((option, index) => (

@@ -14,7 +14,7 @@ const InfoActiveGame = ({
   minesCount,
 }: InfoActiveGameProps) => {
   return (
-    <div className="flex flex-col gap-3 ">
+    <div className="flex flex-col gap-3 order-5 lg:order-4">
       <div className="flex items-center justify-between">
         <p className=" text-[12px] ">Current Multiplier</p>
         <p className=" text-[20px] text-(--successColor) font-(--font-family)">

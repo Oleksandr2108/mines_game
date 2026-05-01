@@ -17,7 +17,7 @@ export default function App() {
   }
 
   return (
-    <div className="flex flex-col lg:flex-row max-w-348 items-center justify-between min-h-screen  ">
+    <div className="flex flex-col lg:flex-row max-w-348 items-center justify-between min-h-screen gap-4 p-4 pb-20">
       <BetSide />
       <MinesGrid key={gameId ?? "no-game"} />
       <BetHistory />

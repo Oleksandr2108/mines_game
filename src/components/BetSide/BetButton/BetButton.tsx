@@ -19,7 +19,13 @@ const BetButton = ({
     <>
       {isGameInProgress ? (
         <button
-          className={`w-full rounded-[10px] uppercase py-3 text-white text-[14px] text-center ${gemsFound === 0 ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
+          className={`w-full rounded-[10px] uppercase py-3 text-white text-[14px] text-center 
+            ${gemsFound === 0 ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
+             order-4 lg:order-3
+             fixed bottom-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)]  z-10
+          lg:static lg:translate-x-0 lg:w-full
+             
+             `}
           style={{ background: "var(--tabFocusBg)" }}
           disabled={gemsFound === 0}
           onClick={clickCashOut}
@@ -28,8 +34,12 @@ const BetButton = ({
         </button>
       ) : (
         <button
-          className="w-full rounded-[10px]
-          uppercase py-3 text-white text-[14px] text-center cursor-pointer"
+          className=" rounded-[10px]
+          uppercase py-3 text-white text-[14px] text-center cursor-pointer
+          order-4 lg:order-3
+          fixed bottom-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)]  z-10
+          lg:static lg:translate-x-0 lg:w-full
+          "
           style={{ background: "var(--activeButtonBg)" }}
           onClick={clickStartGame}
         >

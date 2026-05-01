@@ -20,7 +20,7 @@ const BetHistory = () => {
           {historyData.games.map((game: GameHistoryItem) => (
             <div
               key={game.gameId}
-              className="border bg-(--blockBg) border-(--tabBg) rounded-[10px] p-3 min-w-[140px] lg:min-w-0"
+              className="border bg-(--blockBg) border-(--tabBg) rounded-[10px] p-3 min-w-35 lg:min-w-0"
             >
               <div className="flex items-center justify-between">
                 <p className="text-[12px]">${formatMoney(game.betAmount)}</p>
