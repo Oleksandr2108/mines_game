@@ -25,6 +25,7 @@
   --errorColor: #ef4444;
   --winCell: #052e16;
   --loseCell: #ef4444;
+  --borderCell: #252d3f;
   --activeButtonBg: linear-gradient(
     180deg,
     #22c55e 0%,

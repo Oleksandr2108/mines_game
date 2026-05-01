@@ -29,7 +29,7 @@ const GameResultPopup = ({ result, onClose }: GameResultPopupProps) => {
           <img
             src={BombIcon}
             alt="Bomb"
-            className="w-12 h-12"
+            className="h-18 w-20"
           />
         ) : (
           <span className="text-4xl">💎</span>

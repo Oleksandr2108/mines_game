@@ -148,7 +148,7 @@ const BetSide = () => {
   return (
     <>
       {isStartGamePending && <Loader variant="start" />}
-      <div className="w-70 flex flex-col h-171 gap-6 bg-(--secondaryBg) p-6 rounded-[14px] border border-(--tabBg) order-2 lg:order-1 ">
+      <div className="w-full lg:w-70 flex flex-col h-171 gap-6 bg-(--secondaryBg) p-6 rounded-[14px] border border-(--tabBg) order-2 lg:order-1 ">
         <BetAmountBox />
         <MinesCountsBox />
 
@@ -157,6 +157,7 @@ const BetSide = () => {
           clickStartGame={onStartGame}
           clickCashOut={onCashOut}
           profit={profit}
+          gemsFound={lastGemResponse?.gemsFound}
         />
 
         {isGameInProgress && lastGemResponse && (

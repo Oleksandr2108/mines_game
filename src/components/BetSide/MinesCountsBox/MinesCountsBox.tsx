@@ -3,7 +3,9 @@ import BoxTag from "../BoxTag/BoxTag";
 
 
 const MinesCountsBox = () => {
-    const { minesCount, setMinesCount } = useGameStore();
+  const { minesCount, setMinesCount, lastRevealResponse } = useGameStore();
+  const isGameActive = lastRevealResponse?.status === "active";
+
   return (
     
       <div>
@@ -16,6 +18,7 @@ const MinesCountsBox = () => {
               onClick={() => setMinesCount(option)}
               active={minesCount === option}
               textSize="large"
+              disabled={isGameActive}
             />
           ))}
         </div>

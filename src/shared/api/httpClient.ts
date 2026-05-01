@@ -5,6 +5,6 @@ export const httpClient = axios.create({
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
-    "X-Player-Id": "698745213",
+    "X-Player-Id": "333",
   },
 });

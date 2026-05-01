@@ -19,6 +19,7 @@ const MinesGrid = () => {
     hitMineCell,
     loadingCellKey,
     gameResult,
+    lastRevealResponse,
     setRevealedCells,
     setFullBoard,
     setHitMineCell,
@@ -26,6 +27,8 @@ const MinesGrid = () => {
     setLastRevealResponse,
     setGameResult,
   } = useGameStore();
+
+  const isGameActive = lastRevealResponse?.status === "active";
 
   const revealedMap = useMemo(() => {
     const map = new Set<string>();
@@ -36,8 +39,7 @@ const MinesGrid = () => {
   }, [revealedCells]);
 
   const handleCellClick = async (row: number, col: number) => {
-    if (!gameId) {
-      console.error("Game ID is not available");
+    if (!gameId || !isGameActive) {
       return;
     }
 
@@ -81,6 +83,10 @@ const MinesGrid = () => {
       return "loading" as const;
     }
 
+    if (!isGameActive) {
+      return "inactive" as const;
+    }
+
     if (fullBoard) {
       const type = fullBoard[row]?.[col];
       if (type === "mine") {
@@ -101,7 +107,7 @@ const MinesGrid = () => {
 
   return (
     <div
-      className="relative grid w-full max-w-125 gap-2 sm:gap-2 order-3 lg:order-2"
+      className="relative grid w-full max-w-125 gap-2 lg:gap-2 order-3 lg:order-2"
       style={{ gridTemplateColumns: `repeat(${GRID_SIZE}, minmax(0, 1fr))` }}
     >
       {gameResult && (
@@ -118,7 +124,9 @@ const MinesGrid = () => {
               key={`${row}-${col}`}
               visual={getCellVisual(row, col)}
               onClick={() => handleCellClick(row, col)}
-              disabled={Boolean(fullBoard) || loadingCellKey !== null}
+              disabled={
+                !isGameActive || Boolean(fullBoard) || loadingCellKey !== null
+              }
               index={index}
             />
           );

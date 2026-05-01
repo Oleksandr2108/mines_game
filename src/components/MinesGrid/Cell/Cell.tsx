@@ -20,16 +20,16 @@ const Cell = ({ visual, onClick, disabled, index = 0 }: CellProps) => {
   const interactive = visual === "hidden" && !disabled;
 
   const base =
-    "aspect-square w-full select-none rounded-xl flex items-center justify-center text-2xl sm:text-3xl font-bold transition-all duration-150 border";
+    "aspect-square w-full select-none rounded-xl flex items-center justify-center text-2xl lg:text-3xl font-bold transition-all duration-150 border";
 
   const styles: Record<CellVisual, string> = {
-    inactive: "bg-(--tabBg) ",
+    inactive: "bg-(--tabBg) border-(--borderCell)",
     hidden: cn(
-      "bg-(--tabBg) cursor-pointer text-transparent",
+      "bg-(--tabBg) cursor-pointer text-transparent border-(--borderCell)" ,
       "  hover:scale-105 hover:-translate-y-0.5",
       "active:scale-95",
     ),
-    loading: "bg-(--tabBg) cursor-wait border-(--tabBg)",
+    loading: "bg-(--tabBg) cursor-wait border-(--borderCell)",
     gem: "bg-(--winCell) border-(--successColor)  shadow-[0_0_20px_0_rgb(34_197_94/0.3)] anim-pop",
     mine: "bg-(--loseCell)  anim-flip-in",
     "mine-hit":

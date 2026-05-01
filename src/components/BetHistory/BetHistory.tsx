@@ -8,7 +8,7 @@ const BetHistory = () => {
   const { data: historyData, isLoading, isError } = useGameHistoryQuery();
 
   return (
-    <div className="w-70 h-171  bg-(--secondaryBg) p-6 rounded-[14px] border border-(--tabBg) order-1 lg:order-3 ">
+    <div className="w-full lg:w-70 lg:h-171 bg-(--secondaryBg) p-6 rounded-[14px] border border-(--tabBg) order-1 lg:order-3">
       <Title text="Recent Games" />
       {isLoading && <p>Loading history...</p>}
       {isError && <p>Failed to load history</p>}
@@ -16,11 +16,11 @@ const BetHistory = () => {
         <p>No games played yet.</p>
       )}
       {historyData && historyData.games.length > 0 && (
-        <div className="mt-4 flex flex-col gap-2 overflow-y-auto max-h-[calc(100%-3rem)] pr-1">
+        <div className="mt-4 flex flex-row gap-2 overflow-x-auto pb-2 lg:flex-col lg:overflow-x-hidden lg:overflow-y-auto lg:max-h-[calc(100%-3rem)] lg:pr-1">
           {historyData.games.map((game: GameHistoryItem) => (
             <div
               key={game.gameId}
-              className="border bg-(--blockBg) border-(--tabBg) rounded-[10px] p-3 "
+              className="border bg-(--blockBg) border-(--tabBg) rounded-[10px] p-3 min-w-[140px] lg:min-w-0"
             >
               <div className="flex items-center justify-between">
                 <p className="text-[12px]">${formatMoney(game.betAmount)}</p>
