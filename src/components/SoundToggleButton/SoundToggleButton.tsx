@@ -16,7 +16,7 @@ export default function SoundToggleButton() {
   return (
     <div
       onClick={onToggle}
-      className="flex items-center justify-center relative z-50 h-11 w-11 ml-auto  mb-4 rounded-xl border border-(--borderCell) bg-(--secondaryBg) shadow-[0_10px_30px_rgba(0,0,0,0.35)] cursor-pointer"
+      className="flex items-center justify-center relative z-50 h-11 w-11 ml-auto  mb-4 cursor-pointer"
     >
       <img
         src={soundBtnIcon}
