@@ -2,6 +2,7 @@ import BetHistory from "./components/BetHistory/BetHistory";
 import BetSide from "./components/BetSide/BetSide";
 import Loader from "./components/Loader/Loader";
 import MinesGrid from "./components/MinesGrid/MinesGrid";
+import SoundToggleButton from "./components/SoundToggleButton/SoundToggleButton";
 import { useGameStore } from "./entities/game";
 import { useBalanceQuery, useActiveGameQuery } from "./entities/game";
 import { useGameHistoryQuery } from "./entities/game/queries/useGameHistoryQuery";
@@ -17,10 +18,15 @@ export default function App() {
   }
 
   return (
-    <div className="flex flex-col lg:flex-row max-w-348 items-center justify-between min-h-screen gap-4 p-4 pb-20">
-      <BetSide />
-      <MinesGrid key={gameId ?? "no-game"} />
-      <BetHistory />
+    <div className="flex flex-col max-w-348 min-h-screen p-4 pb-20">
+      <div className="self-end mb-4">
+        <SoundToggleButton />
+      </div>
+      <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
+        <BetSide />
+        <MinesGrid key={gameId ?? "no-game"} />
+        <BetHistory />
+      </div>
     </div>
   );
 }
