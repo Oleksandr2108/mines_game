@@ -3,6 +3,7 @@ import { useShallow } from "zustand/react/shallow";
 import { useGameStore, useRevealCellMutation } from "../../entities/game";
 import { useIsGameActive } from "../../entities/game";
 import type { CellVisual } from "./Cell/Cell";
+import { playGemSound, playMineSound } from "../../shared/lib/useGameSounds";
 
 const GRID_SIZE = 5;
 
@@ -69,9 +70,11 @@ export function useGridState() {
       setLastRevealResponse(response);
 
       if (response.result === "gem") {
+        playGemSound();
         setRevealedCells(response.revealedCells);
         setHitMineCell(null);
       } else {
+        playMineSound();
         setFullBoard(response.fullBoard);
         setHitMineCell(response.revealedCell);
         setGameResult({ type: "mine", betAmount });

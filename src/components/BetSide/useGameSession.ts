@@ -8,6 +8,10 @@ import {
 import { useGameStore } from "../../entities/game";
 import { useGameCashOutMutation } from "../../entities/game/queries/useGameCashOutMutation";
 import { formatMoney } from "../../shared/lib/formatMoney";
+import {
+  playStartSound,
+  playCashOutSound,
+} from "../../shared/lib/useGameSounds";
 
 export function useGameSession() {
   const { data: balanceData } = useBalanceQuery();
@@ -100,6 +104,7 @@ export function useGameSession() {
   const onStartGame = async () => {
     try {
       const response = await startGameMutate({ betAmount, minesCount });
+      playStartSound();
       setGameId(response.gameId);
       setLastRevealResponse({
         result: "gem",
@@ -118,6 +123,7 @@ export function useGameSession() {
     if (!gameId) return;
     try {
       const response = await cashOutMutate(gameId);
+      playCashOutSound();
       setFullBoard(response.fullBoard);
       setHitMineCell(null);
       setLastRevealResponse(null);
