@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { cn } from "../../../utils/styleUtils";
 
 export type CellVisual =
@@ -25,7 +26,7 @@ const Cell = ({ visual, onClick, disabled, index = 0 }: CellProps) => {
   const styles: Record<CellVisual, string> = {
     inactive: "bg-(--tabBg) border-(--borderCell)",
     hidden: cn(
-      "bg-(--tabBg) cursor-pointer text-transparent border-(--borderCell)" ,
+      "bg-(--tabBg) cursor-pointer text-transparent border-(--borderCell)",
       "  hover:scale-105 hover:-translate-y-0.5",
       "active:scale-95",
     ),
@@ -87,4 +88,4 @@ const Cell = ({ visual, onClick, disabled, index = 0 }: CellProps) => {
   );
 };
 
-export default Cell;
+export default memo(Cell);

@@ -17,45 +17,68 @@ const BetHistory = () => {
       )}
       {historyData && historyData.games.length > 0 && (
         <div className="mt-4 flex flex-row gap-2 overflow-x-auto pb-2 lg:flex-col lg:overflow-x-hidden lg:overflow-y-auto lg:max-h-[calc(100%-3rem)] lg:pr-1">
-          {historyData.games.map((game: GameHistoryItem) => (
-            <div
-              key={game.gameId}
-              className="border bg-(--blockBg) border-(--tabBg) rounded-[10px] p-3 min-w-35 lg:min-w-0"
-            >
-              <div className="flex items-center justify-between">
-                <p className="text-[12px]">${formatMoney(game.betAmount)}</p>
-                <p className="text-[14px] font-(--font-family) text-(--successColor)">
-                  {game.status === "lost" ? (
-                    <img
-                      className="w-4 h-4"
-                      src={BombIcon}
-                      alt="Bomb"
-                    />
-                  ) : (
-                    `${game.multiplier}x`
-                  )}{" "}
-                </p>
-              </div>
-              <div className="flex items-center justify-between mt-2">
-                {game.status === "lost" ? (
-                  <>
-                    <p className="text-[10px] uppercase">Bust</p>
-                    <p className="text-[12px] text-(--errorColor) font-(--font-family)">
-                      -${formatMoney(game.betAmount)}
+          {historyData.games.map((game: GameHistoryItem) =>
+            (() => {
+              const isLost = game.status === "lost";
+              const isWon = game.status === "won";
+              const multiplierText =
+                typeof game.multiplier === "number"
+                  ? `${game.multiplier}x`
+                  : "-";
+
+              return (
+                <div
+                  key={game.gameId}
+                  className="border bg-(--blockBg) border-(--tabBg) rounded-[10px] p-3 min-w-35 lg:min-w-0"
+                >
+                  <div className="flex items-center justify-between">
+                    <p className="text-[12px]">
+                      ${formatMoney(game.betAmount)}
                     </p>
-                  </>
-                ) : (
-                  <>
-                    <p className="text-[10px] uppercase">Win</p>
-                    <p className="text-[12px] text-(--successColor) font-(--font-family)">
-                      +$
-                      {game.profit != null ? formatMoney(game.profit) : "0.00"}
+                    <p className="text-[14px] font-(--font-family) text-(--successColor)">
+                      {isLost ? (
+                        <img
+                          className="w-4 h-4"
+                          src={BombIcon}
+                          alt="Bomb"
+                        />
+                      ) : (
+                        multiplierText
+                      )}
                     </p>
-                  </>
-                )}
-              </div>
-            </div>
-          ))}
+                  </div>
+
+                  <div className="flex items-center justify-between mt-2">
+                    {isLost ? (
+                      <>
+                        <p className="text-[10px] uppercase">Bust</p>
+                        <p className="text-[12px] text-(--errorColor) font-(--font-family)">
+                          -${formatMoney(game.betAmount)}
+                        </p>
+                      </>
+                    ) : isWon ? (
+                      <>
+                        <p className="text-[10px] uppercase">Win</p>
+                        <p className="text-[12px] text-(--successColor) font-(--font-family)">
+                          +$
+                          {game.profit != null
+                            ? formatMoney(game.profit)
+                            : "0.00"}
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <p className="text-[10px] uppercase">In progress</p>
+                        <p className="text-[12px] text-white/70 font-(--font-family)">
+                          ${formatMoney(game.betAmount)}
+                        </p>
+                      </>
+                    )}
+                  </div>
+                </div>
+              );
+            })(),
+          )}
         </div>
       )}
     </div>

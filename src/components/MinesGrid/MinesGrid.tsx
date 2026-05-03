@@ -1,23 +1,74 @@
+import { useMemo } from "react";
 import { useShallow } from "zustand/react/shallow";
 import { useGameStore } from "../../entities/game";
-import Cell from "./Cell/Cell";
 import GameResultPopup from "../GameResultPopup/GameResultPopup";
 import { useGridState } from "./useGridState";
+import Cell, { type CellVisual } from "./Cell/Cell";
 
 const TOTAL_CELLS = 25;
 
 const MinesGrid = () => {
-  const { gameResult, setGameResult, minesCount, lastRevealResponse } =
-    useGameStore(
-      useShallow((s) => ({
-        gameResult: s.gameResult,
-        setGameResult: s.setGameResult,
-        minesCount: s.minesCount,
-        lastRevealResponse: s.lastRevealResponse,
-      })),
-    );
-  const { getCellVisual, handleCellClick, isCellDisabled, GRID_SIZE } =
-    useGridState();
+  const {
+    gameResult,
+    setGameResult,
+    minesCount,
+    lastRevealResponse,
+    revealedCells,
+    fullBoard,
+    hitMineCell,
+    loadingCellKey,
+  } = useGameStore(
+    useShallow((s) => ({
+      gameResult: s.gameResult,
+      setGameResult: s.setGameResult,
+      minesCount: s.minesCount,
+      lastRevealResponse: s.lastRevealResponse,
+      revealedCells: s.revealedCells,
+      fullBoard: s.fullBoard,
+      hitMineCell: s.hitMineCell,
+      loadingCellKey: s.loadingCellKey,
+    })),
+  );
+  const { handleCellClick, GRID_SIZE } = useGridState();
+
+  const isGameActive = lastRevealResponse?.status === "active";
+
+  const revealedSet = useMemo(() => {
+    const set = new Set<string>();
+    for (const cell of revealedCells) {
+      set.add(`${cell.row}-${cell.col}`);
+    }
+    return set;
+  }, [revealedCells]);
+
+  const clickHandlers = useMemo(() => {
+    return Array.from({ length: GRID_SIZE * GRID_SIZE }, (_, index) => {
+      const row = Math.floor(index / GRID_SIZE);
+      const col = index % GRID_SIZE;
+      return () => handleCellClick(row, col);
+    });
+  }, [GRID_SIZE, handleCellClick]);
+
+  const getCellVisual = (row: number, col: number): CellVisual => {
+    const key = `${row}-${col}`;
+
+    if (loadingCellKey === key) return "loading";
+    if (!isGameActive) return "inactive";
+
+    if (fullBoard) {
+      const type = fullBoard[row]?.[col];
+      if (type === "mine") {
+        if (hitMineCell?.row === row && hitMineCell?.col === col) {
+          return "mine-hit";
+        }
+        return "mine";
+      }
+      return "gem-faded";
+    }
+
+    if (revealedSet.has(key)) return "gem";
+    return "hidden";
+  };
 
   const gemsFound =
     lastRevealResponse?.result === "gem" ? lastRevealResponse.gemsFound : 0;
@@ -46,20 +97,21 @@ const MinesGrid = () => {
             onClose={() => setGameResult(null)}
           />
         )}
-        {Array.from({ length: GRID_SIZE }).map((_, row) =>
-          Array.from({ length: GRID_SIZE }).map((_, col) => {
-            const index = row * GRID_SIZE + col;
-            return (
-              <Cell
-                key={`${row}-${col}`}
-                visual={getCellVisual(row, col)}
-                onClick={() => handleCellClick(row, col)}
-                disabled={isCellDisabled}
-                index={index}
-              />
-            );
-          }),
-        )}
+        {Array.from({ length: GRID_SIZE * GRID_SIZE }).map((_, index) => {
+          const row = Math.floor(index / GRID_SIZE);
+          const col = index % GRID_SIZE;
+          const visual = getCellVisual(row, col);
+
+          return (
+            <Cell
+              key={`${row}-${col}`}
+              visual={visual}
+              onClick={clickHandlers[index]}
+              disabled={visual !== "hidden"}
+              index={index}
+            />
+          );
+        })}
       </div>
     </div>
   );
