@@ -1,5 +1,9 @@
 import type { GameHistoryItem } from "../../entities/game";
 import { useGameHistoryQuery } from "../../entities/game/queries/useGameHistoryQuery";
+import {
+  GAME_STATUS_WON,
+  GAME_STATUS_LOST,
+} from "../../entities/game/model/constants";
 import Title from "../Title/Title";
 import BombIcon from "../../assets/bomb.png";
 import { formatMoney } from "../../shared/lib/formatMoney";
@@ -19,8 +23,8 @@ const BetHistory = () => {
         <div className="mt-4 flex flex-row gap-2 overflow-x-auto pb-2 lg:flex-col lg:overflow-x-hidden lg:overflow-y-auto lg:max-h-[calc(100%-3rem)] lg:pr-1">
           {historyData.games.map((game: GameHistoryItem) =>
             (() => {
-              const isLost = game.status === "lost";
-              const isWon = game.status === "won";
+              const isLost = game.status === GAME_STATUS_LOST;
+              const isWon = game.status === GAME_STATUS_WON;
               const multiplierText =
                 typeof game.multiplier === "number"
                   ? `${game.multiplier}x`

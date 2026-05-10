@@ -27,8 +27,7 @@ const BetButton = ({
              
              `}
           style={{ background: "var(--tabFocusBg)" }}
-          disabled={gemsFound === 0}
-          onClick={clickCashOut}
+          onClick={gemsFound === 0 ? undefined : clickCashOut}
         >
           Cash Out{profit ? `-$${formatMoney(profit)}` : ""}
         </button>

@@ -55,7 +55,6 @@ const GridCell = memo(function GridCell({
     <Cell
       visual={visual}
       onClick={onClick}
-      disabled={visual !== "hidden"}
       index={index}
     />
   );

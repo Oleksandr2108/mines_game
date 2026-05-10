@@ -107,7 +107,6 @@ const MinesGrid = () => {
               key={`${row}-${col}`}
               visual={visual}
               onClick={clickHandlers[index]}
-              disabled={visual !== "hidden"}
               index={index}
             />
           );

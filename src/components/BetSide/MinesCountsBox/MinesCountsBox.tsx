@@ -23,10 +23,9 @@ const MinesCountsBox = () => {
           <BoxTag
             key={index}
             text={option}
-            onClick={() => setMinesCount(option)}
+            onClick={isGameActive ? undefined : () => setMinesCount(option)}
             active={minesCount === option}
             textSize="large"
-            disabled={isGameActive}
           />
         ))}
       </div>

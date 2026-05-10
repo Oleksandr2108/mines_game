@@ -13,12 +13,11 @@ export type CellVisual =
 interface CellProps {
   visual: CellVisual;
   onClick?: () => void;
-  disabled?: boolean;
   index?: number; // for stagger
 }
 
-const Cell = ({ visual, onClick, disabled, index = 0 }: CellProps) => {
-  const interactive = visual === "hidden" && !disabled;
+const Cell = ({ visual, onClick, index = 0 }: CellProps) => {
+  const interactive = visual === "hidden";
 
   const base =
     "aspect-square w-full select-none rounded-xl flex items-center justify-center text-2xl lg:text-3xl font-bold transition-all duration-150 border";
@@ -43,7 +42,6 @@ const Cell = ({ visual, onClick, disabled, index = 0 }: CellProps) => {
     <button
       type="button"
       onClick={interactive ? onClick : undefined}
-      disabled={!interactive}
       aria-label={
         visual === "gem" || visual === "gem-faded"
           ? "Gem"

@@ -54,8 +54,7 @@ const BetAmountBox = () => {
           >
             <BoxTag
               text={`$${amount}`}
-              disabled={isGameActive}
-              onClick={() => setBetAmount(amount)}
+              onClick={isGameActive ? undefined : () => setBetAmount(amount)}
               active={betAmount === amount}
             />
           </div>
@@ -65,18 +64,15 @@ const BetAmountBox = () => {
       <div className="flex items-center justify-between gap-2 mt-2">
         <BoxTag
           text="1/2"
-          disabled={isGameActive}
-          onClick={halfBet}
+          onClick={isGameActive ? undefined : halfBet}
         />
         <BoxTag
           text="x2"
-          disabled={isGameActive}
-          onClick={doubleBet}
+          onClick={isGameActive ? undefined : doubleBet}
         />
         <BoxTag
           text="Max"
-          disabled={isGameActive}
-          onClick={maxBet}
+          onClick={isGameActive ? undefined : maxBet}
         />
       </div>
     </div>
