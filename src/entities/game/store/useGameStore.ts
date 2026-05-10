@@ -9,7 +9,6 @@ import type {
 } from "../model/types";
 
 interface GameStoreState {
-  balance: number;
   betAmount: number;
   balanceLimit: number;
   minesCount: number;
@@ -20,7 +19,6 @@ interface GameStoreState {
   loadingCellKey: string | null;
   lastRevealResponse: RevealCellResponse | null;
   gameResult: GameResult | null;
-  setBalance: (balance: number) => void;
   setGameId: (id: string) => void;
   setMinesCount: (count: number) => void;
   setBalanceLimit: (balance: number) => void;
@@ -53,7 +51,6 @@ function clampBet(amount: number, balanceLimit: number) {
 export const useGameStore = create<GameStoreState>()(
   persist(
     (set) => ({
-      balance: 0,
       betAmount: MIN_BET,
       balanceLimit: MAX_BET,
       minesCount: MINE_COUNT_OPTIONS[0],
@@ -64,7 +61,6 @@ export const useGameStore = create<GameStoreState>()(
       loadingCellKey: null,
       lastRevealResponse: null,
       gameResult: null,
-      setBalance: (balance: number) => set({ balance }),
       setGameId: (id: string) =>
         set({
           gameId: id,

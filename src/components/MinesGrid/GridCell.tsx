@@ -1,5 +1,6 @@
 import { memo, useCallback, type RefObject } from "react";
 import { useGameStore } from "../../entities/game";
+import { GAME_STATUS_ACTIVE } from "../../entities/game/model/constants";
 import Cell, { type CellVisual } from "./Cell/Cell";
 
 interface GridCellProps {
@@ -15,7 +16,7 @@ function getCellVisual(
   state: ReturnType<typeof useGameStore.getState>,
 ): CellVisual {
   const key = `${row}-${col}`;
-  const isGameActive = state.lastRevealResponse?.status === "active";
+  const isGameActive = state.lastRevealResponse?.status === GAME_STATUS_ACTIVE;
 
   if (state.loadingCellKey === key) return "loading";
   if (!isGameActive) return "inactive";

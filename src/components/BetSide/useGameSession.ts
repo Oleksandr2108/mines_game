@@ -6,6 +6,7 @@ import {
   useStartGameMutation,
 } from "../../entities/game";
 import { useGameStore } from "../../entities/game";
+import { GAME_STATUS_ACTIVE } from "../../entities/game/model/constants";
 import { useGameCashOutMutation } from "../../entities/game/queries/useGameCashOutMutation";
 import { formatMoney } from "../../shared/lib/formatMoney";
 import {
@@ -16,6 +17,8 @@ import {
 export function useGameSession() {
   const { data: balanceData } = useBalanceQuery();
   const { data: activeGameData } = useActiveGameQuery();
+  const balance = balanceData?.balance ?? 0;
+
   const { mutateAsync: startGameMutate, isPending: isStartGamePending } =
     useStartGameMutation();
   const { mutateAsync: cashOutMutate } = useGameCashOutMutation();
@@ -24,7 +27,6 @@ export function useGameSession() {
     gameId,
     betAmount,
     minesCount,
-    balance,
     setGameId,
     setMinesCount,
     setBetAmount,
@@ -32,7 +34,6 @@ export function useGameSession() {
     setFullBoard,
     setHitMineCell,
     setLastRevealResponse,
-    setBalance,
     lastRevealResponse,
     setBalanceLimit,
     setGameResult,
@@ -41,7 +42,6 @@ export function useGameSession() {
       gameId: state.gameId,
       betAmount: state.betAmount,
       minesCount: state.minesCount,
-      balance: state.balance,
       setGameId: state.setGameId,
       setMinesCount: state.setMinesCount,
       setBetAmount: state.setBetAmount,
@@ -49,7 +49,6 @@ export function useGameSession() {
       setFullBoard: state.setFullBoard,
       setHitMineCell: state.setHitMineCell,
       setLastRevealResponse: state.setLastRevealResponse,
-      setBalance: state.setBalance,
       lastRevealResponse: state.lastRevealResponse,
       setBalanceLimit: state.setBalanceLimit,
       setGameResult: state.setGameResult,
@@ -60,8 +59,8 @@ export function useGameSession() {
     lastRevealResponse?.result === "gem" ? lastRevealResponse : null;
 
   const isGameInProgress =
-    activeGameData?.status === "active" ||
-    lastRevealResponse?.status === "active";
+    activeGameData?.status === GAME_STATUS_ACTIVE ||
+    lastRevealResponse?.status === GAME_STATUS_ACTIVE;
 
   const profit = lastGemResponse
     ? lastGemResponse.currentMultiplier * betAmount - betAmount
@@ -71,9 +70,8 @@ export function useGameSession() {
 
   useEffect(() => {
     if (typeof balanceData?.balance !== "number") return;
-    setBalance(balanceData.balance);
     setBalanceLimit(balanceData.balance);
-  }, [balanceData?.balance, setBalance, setBalanceLimit]);
+  }, [balanceData?.balance, setBalanceLimit]);
 
   useEffect(() => {
     if (!activeGameData) return;

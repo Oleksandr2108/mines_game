@@ -1,5 +1,6 @@
 import { memo } from "react";
 import { cn } from "../../../utils/styleUtils";
+import SpinnerIcon from "./SpinnerIcon";
 
 export type CellVisual =
   | "inactive"
@@ -13,11 +14,24 @@ export type CellVisual =
 interface CellProps {
   visual: CellVisual;
   onClick?: () => void;
-  index?: number; // for stagger
+  index?: number;
 }
 
 const Cell = ({ visual, onClick, index = 0 }: CellProps) => {
   const interactive = visual === "hidden";
+
+  const getAriaLabel = (): string => {
+    if (visual === "gem" || visual === "gem-faded") return "Gem";
+    if (visual === "mine" || visual === "mine-hit") return "Mine";
+    return "Hidden cell";
+  };
+
+  const getAnimationStyle = (): React.CSSProperties | undefined => {
+    if (visual === "mine" || visual === "gem-faded") {
+      return { animationDelay: `${index * 0.04}s` };
+    }
+    return undefined;
+  };
 
   const base =
     "aspect-square w-full select-none rounded-xl flex items-center justify-center text-2xl lg:text-3xl font-bold transition-all duration-150 border";
@@ -42,18 +56,8 @@ const Cell = ({ visual, onClick, index = 0 }: CellProps) => {
     <button
       type="button"
       onClick={interactive ? onClick : undefined}
-      aria-label={
-        visual === "gem" || visual === "gem-faded"
-          ? "Gem"
-          : visual === "mine" || visual === "mine-hit"
-            ? "Mine"
-            : "Hidden cell"
-      }
-      style={
-        visual === "mine" || visual === "gem-faded"
-          ? { animationDelay: `${index * 0.04}s` }
-          : undefined
-      }
+      aria-label={getAriaLabel()}
+      style={getAnimationStyle()}
       className={cn(base, styles[visual])}
     >
       {visual === "gem" || visual === "gem-faded" ? (
@@ -61,26 +65,7 @@ const Cell = ({ visual, onClick, index = 0 }: CellProps) => {
       ) : visual === "mine" || visual === "mine-hit" ? (
         <span>💣</span>
       ) : visual === "loading" ? (
-        <svg
-          className="h-6 w-6 animate-spin text-white/60"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <circle
-            className="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            strokeWidth="3"
-          />
-          <path
-            className="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-          />
-        </svg>
+        <SpinnerIcon />
       ) : null}
     </button>
   );

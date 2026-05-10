@@ -1,5 +1,10 @@
 import { httpClient } from "../../../shared/api/httpClient";
 import { isAxiosError } from "axios";
+import {
+  NO_ACTIVE_GAME_MESSAGE,
+  HTTP_STATUS_NOT_FOUND,
+  HTTP_STATUS_BAD_REQUEST,
+} from "../model/constants";
 import type {
   ActiveGameResponse,
   BalanceResponse,
@@ -35,9 +40,9 @@ export const gameApi = {
         )?.error;
 
         if (
-          status === 404 ||
-          status === 400 ||
-          backendMessage === "No active game"
+          status === HTTP_STATUS_NOT_FOUND ||
+          status === HTTP_STATUS_BAD_REQUEST ||
+          backendMessage === NO_ACTIVE_GAME_MESSAGE
         ) {
           return null;
         }

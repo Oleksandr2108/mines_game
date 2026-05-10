@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import { useGameStore, useRevealCellMutation } from "../../entities/game";
+import { GAME_STATUS_ACTIVE } from "../../entities/game/model/constants";
 import { playGemSound, playMineSound } from "../../shared/lib/useGameSounds";
 
 const GRID_SIZE = 5;
@@ -22,7 +23,7 @@ export function useGridState() {
         setLastRevealResponse,
         setGameResult,
       } = state;
-      const isGameActive = lastRevealResponse?.status === "active";
+      const isGameActive = lastRevealResponse?.status === GAME_STATUS_ACTIVE;
 
       if (!gameId || !isGameActive) return;
       if (fullBoard) return;

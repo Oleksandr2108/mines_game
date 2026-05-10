@@ -9,8 +9,7 @@ export default function SoundToggleButton() {
   const [enabled, setEnabled] = useState(getSoundEnabled());
 
   const onToggle = () => {
-    const next = toggleSoundEnabled();
-    setEnabled(next);
+    setEnabled(toggleSoundEnabled());
   };
 
   return (

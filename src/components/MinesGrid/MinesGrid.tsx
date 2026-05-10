@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { useShallow } from "zustand/react/shallow";
 import { useGameStore } from "../../entities/game";
+import { GAME_STATUS_ACTIVE } from "../../entities/game/model/constants";
 import GameResultPopup from "../GameResultPopup/GameResultPopup";
 import { useGridState } from "./useGridState";
 import Cell, { type CellVisual } from "./Cell/Cell";
@@ -31,7 +32,7 @@ const MinesGrid = () => {
   );
   const { handleCellClick, GRID_SIZE } = useGridState();
 
-  const isGameActive = lastRevealResponse?.status === "active";
+  const isGameActive = lastRevealResponse?.status === GAME_STATUS_ACTIVE;
 
   const revealedSet = useMemo(() => {
     const set = new Set<string>();
