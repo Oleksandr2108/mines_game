@@ -1,0 +1,7 @@
+export const gameKeys = {
+  all: ["game"] as const,
+  byId: (gameId: string) => [...gameKeys.all, gameId] as const,
+  balance: () => [...gameKeys.all, "balance"] as const,
+  active: () => [...gameKeys.all, "active"] as const,
+  history: () => [...gameKeys.all, "history"] as const,
+};
